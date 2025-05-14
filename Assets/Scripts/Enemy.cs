@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rigidBody;
     private Color originalColor;
     private SpriteRenderer spriteRenderer;
+    private CameraShake cameraShake;
 
     void Start()
     {
@@ -17,6 +18,7 @@ public class Enemy : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
+        cameraShake = FindFirstObjectByType<CameraShake>();
     }
 
     void FixedUpdate()
@@ -37,6 +39,7 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(int amount)
     {
         hitPoints -= amount;
+        cameraShake.Shake();
         StartCoroutine(FlashDamage());
 
         if (hitPoints <= 0)
@@ -53,7 +56,14 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
-        // Acá podés poner una animación o efecto antes de destruir
         Destroy(gameObject);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<PlayerMovement>().TakeDamage(1);
+        }
     }
 }
