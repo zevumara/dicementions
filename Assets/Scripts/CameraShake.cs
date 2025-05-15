@@ -16,13 +16,13 @@ public class CameraShake : MonoBehaviour
     {
         if (shakeTimeRemaining > 0)
         {
-            Vector2 randomPoint = Random.insideUnitCircle * shakeMagnitude;
-            transform.localPosition = initialPosition + new Vector3(randomPoint.x, randomPoint.y, 0f);
-
+            Vector2 offset = Random.insideUnitCircle * shakeMagnitude;
+            transform.localPosition = initialPosition + new Vector3(offset.x, offset.y, 0f);
             shakeTimeRemaining -= Time.deltaTime;
-
-            if (shakeTimeRemaining <= 0f)
-                transform.localPosition = initialPosition;
+        }
+        else
+        {
+            transform.localPosition = initialPosition;
         }
     }
 

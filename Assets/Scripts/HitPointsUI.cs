@@ -4,17 +4,17 @@ using UnityEngine;
 public class HitPointsUI : MonoBehaviour
 {
     public GameObject heartObject;
-    public PlayerMovement player;
+    public Player player;
     private List<HeartUI> hearts = new List<HeartUI>();
 
     private void OnEnable()
     {
-        PlayerMovement.onPlayerDamaged += DrawHearts;
+        Player.onPlayerDamaged += DrawHearts;
     }
 
     private void OnDisable()
     {
-        PlayerMovement.onPlayerDamaged -= DrawHearts;
+        Player.onPlayerDamaged -= DrawHearts;
     }
 
     private void Start()

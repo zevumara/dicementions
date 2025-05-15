@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class Player : MonoBehaviour
 {
     public static event Action onPlayerDamaged;
     public float moveSpeed = 5f, hp, maxHp = 5f;
