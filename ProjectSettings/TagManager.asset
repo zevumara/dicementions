@@ -14,8 +14,8 @@ TagManager:
   - UI
   - Wall
   - Bullet
-  - 
-  - 
+  - Enemy
+  - EnemyBullet
   - 
   - 
   - 
@@ -45,11 +45,11 @@ TagManager:
   - name: Background
     uniqueID: 1865139379
     locked: 0
-  - name: Player
-    uniqueID: 3242004789
-    locked: 0
   - name: Enemies
     uniqueID: 2003068503
+    locked: 0
+  - name: Player
+    uniqueID: 3242004789
     locked: 0
   m_RenderingLayers:
   - Default

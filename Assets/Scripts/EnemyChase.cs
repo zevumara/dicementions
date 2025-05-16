@@ -1,39 +1,38 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class EnemyChase : MonoBehaviour, IDamageable
 {
+    [Header("General")]
     public float hitPoints = 3;
-    public float speed = 1.5f;
+    public float normalSpeed = 1.5f;
     public Color flashColor = Color.red;
     public float flashDuration = 0.1f;
+
     private Transform player;
     private Rigidbody2D rigidBody;
-    private Color originalColor;
     private SpriteRenderer spriteRenderer;
     private CameraShake cameraShake;
+    private float currentSpeed;
+    private Color originalColor;
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        originalColor = spriteRenderer.color;
         cameraShake = FindFirstObjectByType<CameraShake>();
+        currentSpeed = normalSpeed;
+        originalColor = spriteRenderer.color;
     }
 
     void FixedUpdate()
     {
-        if (player == null)
-            return;
+        if (player == null) return;
 
-        // Movimiento hacia el jugador
-        Vector2 direction = ((Vector2)player.position - rigidBody.position).normalized;
-        rigidBody.MovePosition(rigidBody.position + direction * speed * Time.fixedDeltaTime);
+        Vector2 direction = ((Vector2) player.position - rigidBody.position).normalized;
 
-        // Rotación hacia el jugador
-        Vector2 lookDir = (Vector2)player.position - rigidBody.position;
-        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
-        rigidBody.rotation = angle;
+        // Movimiento
+        rigidBody.MovePosition(rigidBody.position + direction * currentSpeed * Time.fixedDeltaTime);
     }
 
     public void TakeDamage(int amount)
@@ -43,11 +42,10 @@ public class Enemy : MonoBehaviour
         StartCoroutine(FlashDamage());
 
         if (hitPoints <= 0)
-        {
             Die();
-        }
     }
-    System.Collections.IEnumerator FlashDamage()
+
+    private System.Collections.IEnumerator FlashDamage()
     {
         spriteRenderer.color = flashColor;
         yield return new WaitForSeconds(flashDuration);

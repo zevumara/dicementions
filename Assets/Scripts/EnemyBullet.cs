@@ -1,25 +1,30 @@
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class EnemyBullet : MonoBehaviour
 {
     public GameObject hitEffect;
 
     void Start()
     {
-        Destroy(gameObject, 3f);
+        Destroy(gameObject, 6f);
+    }
+
+    void Update()
+    {
+        transform.Rotate(0f, 0f, 360f * Time.deltaTime);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             GameObject effect = Instantiate(hitEffect, transform.position, Quaternion.identity);
             Destroy(effect, 0.3f);
             Destroy(gameObject);
-            IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
-            if (damageable != null)
+            Player player = collision.gameObject.GetComponent<Player>();
+            if (player != null)
             {
-                damageable.TakeDamage(1);
+                player.TakeDamage(1);
             }
         }
     }
