@@ -1,17 +1,19 @@
 using System.Collections;
 using UnityEngine;
 
-public class EnemyShoot : MonoBehaviour, IDamageable
+public class EnemyTurret : MonoBehaviour, IDamageable
 {
 
     [Header("General")]
     public float hitPoints = 3;
-    public float normalSpeed = 1.5f;
     public Color flashColor = Color.red;
     public float flashDuration = 0.1f;
+    public GameObject destroyedVersionPrefab;
 
     [Header("Shoot Settings")]
-    public float shootDuration = 0.5f;
+    public float rotationSpeed = 200f;
+    public float shootSpeed = 0.2f;
+    public float shootDuration = 10f;
     public float shootCooldown = 3f;
     public Color shootColor = Color.cyan;
     public float prepareShootDuration = 0.5f;
@@ -19,13 +21,11 @@ public class EnemyShoot : MonoBehaviour, IDamageable
     [Header("Projectile Settings")]
     public GameObject enemyBulletPrefab;
     public Transform firePoint;
-    public float bulletForce = 20f;
+    public float bulletForce = 8f;
     
     private Transform player;
-    private Rigidbody2D rigidBody;
     private SpriteRenderer spriteRenderer;
     private CameraShake cameraShake;
-    private float currentSpeed;
     private float shootTimer = 0f;
     private float shootDurationTimer = 0f;
     private bool isShooting = false;
@@ -35,21 +35,14 @@ public class EnemyShoot : MonoBehaviour, IDamageable
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         cameraShake = FindFirstObjectByType<CameraShake>();
         originalColor = spriteRenderer.color;
-        currentSpeed = normalSpeed;
     }
 
     void FixedUpdate()
     {
         if (player == null) return;
-
-        Vector2 direction = ((Vector2) player.position - rigidBody.position).normalized;
-
-        // Movimiento
-        rigidBody.MovePosition(rigidBody.position + direction * currentSpeed * Time.fixedDeltaTime);
 
         // Shoot cooldown
         shootTimer -= Time.fixedDeltaTime;
@@ -63,11 +56,11 @@ public class EnemyShoot : MonoBehaviour, IDamageable
         if (isShooting)
         {
             shootDurationTimer -= Time.fixedDeltaTime;
+            firePoint.Rotate(0f, 0f, rotationSpeed * Time.fixedDeltaTime);
             if (shootDurationTimer <= 0f)
             {
                 // Terminó de disparar
                 isShooting = false;
-                currentSpeed = normalSpeed;
                 shootTimer = shootCooldown;
                 spriteRenderer.color = originalColor;
             }
@@ -81,11 +74,21 @@ public class EnemyShoot : MonoBehaviour, IDamageable
             GameObject bullet = Instantiate(enemyBulletPrefab, firePoint.position, Quaternion.identity);
             bullet.layer = LayerMask.NameToLayer("EnemyBullet");
             Rigidbody2D rigidBody = bullet.GetComponent<Rigidbody2D>();
-            Vector2 direction = ((Vector2) player.position - rigidBody.position).normalized;
+            Vector2 direction = firePoint.up;
             rigidBody.AddForce(direction * bulletForce, ForceMode2D.Impulse);
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(shootSpeed);
         }
+    }
+
+    public void TakeDamage(int amount)
+    {
+        hitPoints -= amount;
+        cameraShake.Shake();
+        StartCoroutine(FlashDamage());
+
+        if (hitPoints <= 0)
+            Die();
     }
 
     private IEnumerator FlashDamage()
@@ -97,6 +100,7 @@ public class EnemyShoot : MonoBehaviour, IDamageable
 
     void Die()
     {
+        Instantiate(destroyedVersionPrefab, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 
@@ -111,7 +115,6 @@ public class EnemyShoot : MonoBehaviour, IDamageable
 
         // Inicia el disparo
         isShooting = true;
-        currentSpeed = 0f;
         shootDurationTimer = shootDuration;
         spriteRenderer.color = shootColor;
         isPreparing = false;
@@ -124,15 +127,5 @@ public class EnemyShoot : MonoBehaviour, IDamageable
         {
             collision.gameObject.GetComponent<Player>().TakeDamage(1);
         }
-    }
-
-    public void TakeDamage(int amount)
-    {
-        hitPoints -= amount;
-        cameraShake.Shake();
-        StartCoroutine(FlashDamage());
-
-        if (hitPoints <= 0)
-            Die();
     }
 }
