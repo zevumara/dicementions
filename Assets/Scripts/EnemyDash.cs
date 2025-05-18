@@ -18,7 +18,6 @@ public class EnemyDash : MonoBehaviour, IDamageable
     private Transform player;
     private Rigidbody2D rigidBody;
     private SpriteRenderer spriteRenderer;
-    private CameraShake cameraShake;
     private float currentSpeed;
     private float dashTimer = 0f;
     private float dashDurationTimer = 0f;
@@ -34,7 +33,6 @@ public class EnemyDash : MonoBehaviour, IDamageable
         bulletLayer = LayerMask.NameToLayer("Bullet");
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        cameraShake = FindFirstObjectByType<CameraShake>();
         originalColor = spriteRenderer.color;
         currentSpeed = normalSpeed;
     }
@@ -78,7 +76,6 @@ public class EnemyDash : MonoBehaviour, IDamageable
         if (isDashing) return;
 
         hitPoints -= amount;
-        cameraShake.Shake();
         StartCoroutine(FlashDamage());
 
         if (hitPoints <= 0)

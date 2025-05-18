@@ -1,12 +1,14 @@
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public class WeaponLanzaGranadas : MonoBehaviour
 {
     public Camera mainCamera;
     public Transform player;
     public Transform firePoint;
     public GameObject bulletPrefab;
     public float bulletForce = 20f;
+    private float holdTime = 0f;
+    private bool isCharging = false;
 
     void Update()
     {
@@ -17,14 +19,27 @@ public class Weapon : MonoBehaviour
 
         if (Input.GetButtonDown("Fire1"))
         {
-            Shoot();
+            isCharging = true;
+            holdTime = 0f;
+        }
+
+        if (Input.GetButton("Fire1") && isCharging)
+        {
+            holdTime += Time.deltaTime * 1.1f;
+        }
+
+        if (Input.GetButtonUp("Fire1") && isCharging)
+        {
+            isCharging = false;
+            Shoot(holdTime);
         }
     }
 
-    void Shoot()
+    void Shoot(float chargeDuration)
     {
+        Vector2 shootDirection = firePoint.up;
+
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation * Quaternion.Euler(0, 0, 90));
-        Rigidbody2D rigidBody = bullet.GetComponent<Rigidbody2D>();
-        rigidBody.AddForce(firePoint.up * bulletForce, ForceMode2D.Impulse);
+        bullet.GetComponent<Granade>().Initialize(shootDirection, chargeDuration);
     }
 }

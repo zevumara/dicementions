@@ -6,6 +6,7 @@ public class CameraShake : MonoBehaviour
     public float shakeMagnitude = 0.1f;
     private Vector3 initialPosition;
     private float shakeTimeRemaining = 0f;
+    private float currentMagnitude = 0.1f;
 
     void Start()
     {
@@ -16,7 +17,7 @@ public class CameraShake : MonoBehaviour
     {
         if (shakeTimeRemaining > 0)
         {
-            Vector2 offset = Random.insideUnitCircle * shakeMagnitude;
+            Vector2 offset = Random.insideUnitCircle * currentMagnitude;
             transform.localPosition = initialPosition + new Vector3(offset.x, offset.y, 0f);
             shakeTimeRemaining -= Time.deltaTime;
         }
@@ -26,8 +27,9 @@ public class CameraShake : MonoBehaviour
         }
     }
 
-    public void Shake()
+    public void Shake(float duration = 0.1f, float magnitude = 0.1f)
     {
-        shakeTimeRemaining = shakeDuration;
+        shakeTimeRemaining = duration;
+        currentMagnitude = magnitude;
     }
 }

@@ -25,7 +25,6 @@ public class EnemyTurret : MonoBehaviour, IDamageable
     
     private Transform player;
     private SpriteRenderer spriteRenderer;
-    private CameraShake cameraShake;
     private float shootTimer = 0f;
     private float shootDurationTimer = 0f;
     private bool isShooting = false;
@@ -36,7 +35,6 @@ public class EnemyTurret : MonoBehaviour, IDamageable
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         spriteRenderer = GetComponent<SpriteRenderer>();
-        cameraShake = FindFirstObjectByType<CameraShake>();
         originalColor = spriteRenderer.color;
     }
 
@@ -84,7 +82,6 @@ public class EnemyTurret : MonoBehaviour, IDamageable
     public void TakeDamage(int amount)
     {
         hitPoints -= amount;
-        cameraShake.Shake();
         StartCoroutine(FlashDamage());
 
         if (hitPoints <= 0)

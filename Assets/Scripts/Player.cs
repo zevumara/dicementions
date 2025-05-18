@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
     }
     void FixedUpdate()
     {
-        rigidBody.MovePosition(rigidBody.position + movement * moveSpeed * Time.fixedDeltaTime);
+        rigidBody.linearVelocity = movement * moveSpeed;
     }
     public void TakeDamage(int amount)
     {

@@ -11,7 +11,6 @@ public class EnemyChase : MonoBehaviour, IDamageable
     private Transform player;
     private Rigidbody2D rigidBody;
     private SpriteRenderer spriteRenderer;
-    private CameraShake cameraShake;
     private float currentSpeed;
     private Color originalColor;
 
@@ -20,7 +19,6 @@ public class EnemyChase : MonoBehaviour, IDamageable
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        cameraShake = FindFirstObjectByType<CameraShake>();
         currentSpeed = normalSpeed;
         originalColor = spriteRenderer.color;
     }
@@ -38,7 +36,6 @@ public class EnemyChase : MonoBehaviour, IDamageable
     public void TakeDamage(int amount)
     {
         hitPoints -= amount;
-        cameraShake.Shake();
         StartCoroutine(FlashDamage());
 
         if (hitPoints <= 0)
