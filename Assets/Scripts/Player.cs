@@ -10,6 +10,10 @@ public class Player : MonoBehaviour
     public Animator animator;
     public Color flashColor = Color.red;
     public float flashDuration = 0.1f;
+    public int weaponID = 0;
+    public int enemy1ID = 0;
+    public int enemy2ID = 0;
+    public bool isReady = false;
     private Vector2 movement;
     private Color originalColor;
     private SpriteRenderer spriteRenderer;
@@ -44,6 +48,14 @@ public class Player : MonoBehaviour
         {
             Die();
         }
+    }
+    public void TakePotion(int amount)
+    {
+        hp += amount;
+        onPlayerDamaged?.Invoke();
+        cameraShake.Shake();
+        StartCoroutine(FlashDamage());
+        FindFirstObjectByType<ScreenFlash>()?.Flash();
     }
     System.Collections.IEnumerator FlashDamage()
     {
