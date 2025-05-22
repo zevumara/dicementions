@@ -11,14 +11,13 @@ public class Dice : MonoBehaviour
     public Vector3 floatOffset = new Vector3(0, 0.25f, 0);
     public float floatSpeed = 2f;
     public string[] faces = new string[6] {
-        "Bate",             // +X
-        "Escopeta",         // -X
-        "Bumerán",          // +Y
-        "Ametralladora",    // -Y
-        "Pistola",          // +Z
-        "Lanzagranadas"     // -Z
+        "5", // +X Bate
+        "1", // -X Escopeta
+        "5", // +Y Bumerán
+        "3", // -Y Ametralladora
+        "0", // +Z Pistola
+        "4"  // -Z Lanzagranadas
     };
-    public Player player;
     public Image imageWeapon;
     public Sprite[] spritesWeapons;
     public Image imageEnemy1;
@@ -92,14 +91,14 @@ public class Dice : MonoBehaviour
         physicsEnabled = true;
         rigidBody.isKinematic = false;
         // Lanzamiento hacia arriba + dirección aleatoria
-        rigidBody.AddForce(Vector3.up * throwForce, ForceMode.Impulse);
+        rigidBody.AddForce(Vector3.up * (throwForce + Random.Range(-6f, 6f)), ForceMode.Impulse);
         // Agitación rotacional agresiva
         Vector3 torqueDirection = new Vector3(1, 1, 0).normalized;
-        rigidBody.AddTorque(torqueDirection * throwForce, ForceMode.Impulse);
+        rigidBody.AddTorque(torqueDirection * (throwForce + Random.Range(-6f, 6f)), ForceMode.Impulse);
 
         waitingToStop = true;
         stillTime = 0f;
-        player.TakePotion(2);
+        Player.Instance.TakePotion(2);
     }
     void GetDiceFace()
     {
@@ -129,30 +128,53 @@ public class Dice : MonoBehaviour
 
         if (faceIndex >= 0 && faceIndex < faces.Length)
         {
-            Debug.Log("La cara visible es: " + faces[faceIndex]);
+            // Debug.Log("La cara visible es: " + faces[faceIndex]);
             if (imageWeapon)
             {
-                imageWeapon.sprite = spritesWeapons[faceIndex];
-                imageWeapon.enabled = true;
+                setWeapon(faces[faceIndex], spritesWeapons[faceIndex]);
             }
             if (imageEnemy1 && imageEnemy2)
             {
-                string[] partes = faces[faceIndex].Split('+');
-                int[] numeros = new int[partes.Length];
-                for (int i = 0; i < partes.Length; i++)
-                {
-                    numeros[i] = int.Parse(partes[i]);
-                }
-                imageEnemy1.sprite = spritesEnemies[numeros[0]];
-                imageEnemy1.enabled = true;
-                imageEnemy2.sprite = spritesEnemies[numeros[1]];
-                imageEnemy2.enabled = true;
-                player.isReady = true;
+                setEnemies(faces[faceIndex]);
             }
         }
         else
         {
             Debug.Log("No se pudo determinar la cara visible.");
+        }
+    }
+
+    void setWeapon(string name, Sprite sprite)
+    {
+        imageWeapon.sprite = sprite;
+        imageWeapon.enabled = true;
+
+        GameObject weaponPrefab = GameManager.Instance.GetWeaponByName("Weapon" + name);
+        if (weaponPrefab != null)
+        {
+            Player.Instance.weapon = weaponPrefab;
+        }
+    }
+
+    void setEnemies(string enemies)
+    {
+        string[] enemyIndex = enemies.Split('+');
+        int[] spriteIndex = new int[2];
+
+        spriteIndex[0] = int.Parse(enemyIndex[0]);
+        spriteIndex[1] = int.Parse(enemyIndex[1]);
+        
+        imageEnemy1.sprite = spritesEnemies[spriteIndex[0]];
+        imageEnemy1.enabled = true;
+        imageEnemy2.sprite = spritesEnemies[spriteIndex[1]];
+        imageEnemy2.enabled = true;
+        
+        GameObject enemy1Prefab = GameManager.Instance.GetEnemyByIndex(spriteIndex[0]);
+        GameObject enemy2Prefab = GameManager.Instance.GetEnemyByIndex(spriteIndex[1]);
+        if (enemy1Prefab != null && enemy2Prefab != null)
+        {
+            Player.Instance.enemy1 = enemy1Prefab;
+            Player.Instance.enemy2 = enemy2Prefab;
         }
     }
 }

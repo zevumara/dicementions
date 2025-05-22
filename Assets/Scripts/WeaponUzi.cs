@@ -3,9 +3,6 @@ using System.Collections;
 
 public class WeaponUzi : MonoBehaviour
 {
-    public Camera mainCamera;
-    public Transform player;
-    public Transform firePoint;
     public GameObject bulletPrefab;
     public float bulletForce = 20f;
 
@@ -13,13 +10,20 @@ public class WeaponUzi : MonoBehaviour
     public int bulletsPerBurst = 5;
     public float timeBetweenBullets = 0.1f;
     public float timeBetweenBursts = 0.5f;
-
     private Coroutine firingCoroutine;
+    private Camera levelCamera;
+    private Transform firePoint;
+
+    void Start()
+    {
+        levelCamera = LevelManager.Instance.mainCamera;
+        firePoint = transform.Find("Firepoint");
+    }
 
     void Update()
     {
         // Rotación hacia el mouse
-        Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 mousePosition = levelCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector3 direction = mousePosition - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, angle);
@@ -55,8 +59,11 @@ public class WeaponUzi : MonoBehaviour
 
     void Shoot()
     {
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation * Quaternion.Euler(0, 0, 90));
-        Rigidbody2D rigidBody = bullet.GetComponent<Rigidbody2D>();
-        rigidBody.AddForce(firePoint.up * bulletForce, ForceMode2D.Impulse);
+        if (Player.Instance.CanShoot())
+        {
+            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation * Quaternion.Euler(0, 0, 90));
+            Rigidbody2D rigidBody = bullet.GetComponent<Rigidbody2D>();
+            rigidBody.AddForce(firePoint.up * bulletForce, ForceMode2D.Impulse);
+        }
     }
 }

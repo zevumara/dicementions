@@ -2,17 +2,22 @@ using UnityEngine;
 
 public class WeaponLanzaGranadas : MonoBehaviour
 {
-    public Camera mainCamera;
-    public Transform player;
-    public Transform firePoint;
     public GameObject bulletPrefab;
     public float bulletForce = 20f;
     private float holdTime = 0f;
     private bool isCharging = false;
+    private Camera levelCamera;
+    private Transform firePoint;
+
+    void Start()
+    {
+        levelCamera = LevelManager.Instance.mainCamera;
+        firePoint = transform.Find("Firepoint");
+    }
 
     void Update()
     {
-        Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 mousePosition = levelCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector3 direction = mousePosition - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, angle);
@@ -37,9 +42,12 @@ public class WeaponLanzaGranadas : MonoBehaviour
 
     void Shoot(float chargeDuration)
     {
-        Vector2 shootDirection = firePoint.up;
+        if (Player.Instance.CanShoot())
+        {
+            Vector2 shootDirection = firePoint.up;
 
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation * Quaternion.Euler(0, 0, 90));
-        bullet.GetComponent<Granade>().Initialize(shootDirection, chargeDuration);
+            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation * Quaternion.Euler(0, 0, 90));
+            bullet.GetComponent<Granade>().Initialize(shootDirection, chargeDuration);
+        }
     }
 }

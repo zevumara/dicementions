@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
+    public static CameraFollow Instance { get; private set; }
     public Transform target;
     public float smoothSpeed = 5f;
     public Vector3 offset = new Vector3(0f, 0f, -10f);
@@ -15,6 +16,16 @@ public class CameraFollow : MonoBehaviour
     private Vector3 currentLookAhead;
     private Vector3 lookAheadVelocity;
     public float lookSmoothTime = 0.1f;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
     void Start()
     {
