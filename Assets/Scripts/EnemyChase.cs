@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyChase : MonoBehaviour, IDamageable
+public class EnemyChase : EnemyBase, IDamageable
 {
     [Header("General")]
     public float hitPoints = 3;
@@ -14,8 +14,9 @@ public class EnemyChase : MonoBehaviour, IDamageable
     private float currentSpeed;
     private Color originalColor;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -25,7 +26,7 @@ public class EnemyChase : MonoBehaviour, IDamageable
 
     void FixedUpdate()
     {
-        if (player == null) return;
+        if (LevelManager.Instance.isPaused()) return;
 
         Vector2 direction = ((Vector2) player.position - rigidBody.position).normalized;
 
@@ -47,11 +48,6 @@ public class EnemyChase : MonoBehaviour, IDamageable
         spriteRenderer.color = flashColor;
         yield return new WaitForSeconds(flashDuration);
         spriteRenderer.color = originalColor;
-    }
-
-    void Die()
-    {
-        Destroy(gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

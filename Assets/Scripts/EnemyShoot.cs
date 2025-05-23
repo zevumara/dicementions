@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class EnemyShoot : MonoBehaviour, IDamageable
+public class EnemyShoot : EnemyBase, IDamageable
 {
 
     [Header("General")]
@@ -31,18 +31,20 @@ public class EnemyShoot : MonoBehaviour, IDamageable
     private Color originalColor;
     private bool isPreparing = false;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
         currentSpeed = normalSpeed;
+        shootTimer = Random.Range(2, 8);
     }
 
     void FixedUpdate()
     {
-        if (player == null) return;
+        if (LevelManager.Instance.isPaused()) return;
 
         Vector2 direction = ((Vector2) player.position - rigidBody.position).normalized;
 
@@ -76,6 +78,8 @@ public class EnemyShoot : MonoBehaviour, IDamageable
     {
         while (isShooting)
         {
+            if (LevelManager.Instance.isPaused()) yield return null;
+
             GameObject bullet = Instantiate(enemyBulletPrefab, firePoint.position, Quaternion.identity);
             bullet.layer = LayerMask.NameToLayer("EnemyBullet");
             Rigidbody2D rigidBody = bullet.GetComponent<Rigidbody2D>();
@@ -93,13 +97,10 @@ public class EnemyShoot : MonoBehaviour, IDamageable
         spriteRenderer.color = isShooting ? shootColor : originalColor;
     }
 
-    void Die()
-    {
-        Destroy(gameObject);
-    }
-
     private IEnumerator PrepareShoot()
     {
+        if (LevelManager.Instance.isPaused()) yield break;
+
         if (isPreparing) yield break;
 
         isPreparing = true;

@@ -31,6 +31,8 @@ public class Granade : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (LevelManager.Instance.isPaused()) return;
+        
         transform.Rotate(Vector3.forward * 720f * Time.deltaTime);
 
         lifeTimer += Time.fixedDeltaTime;

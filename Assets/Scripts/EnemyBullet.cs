@@ -11,6 +11,8 @@ public class EnemyBullet : MonoBehaviour
 
     void Update()
     {
+        if (LevelManager.Instance.isPaused()) return;
+
         transform.Rotate(0f, 0f, 360f * Time.deltaTime);
     }
 

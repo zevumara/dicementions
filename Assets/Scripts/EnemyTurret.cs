@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class EnemyTurret : MonoBehaviour, IDamageable
+public class EnemyTurret : EnemyBase, IDamageable
 {
 
     [Header("General")]
@@ -31,16 +31,19 @@ public class EnemyTurret : MonoBehaviour, IDamageable
     private Color originalColor;
     private bool isPreparing = false;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
+        shootTimer = Random.Range(2, 10);
+        shootCooldown = Random.Range(3, 12);
     }
 
     void FixedUpdate()
     {
-        if (player == null) return;
+        if (LevelManager.Instance.isPaused()) return;
 
         // Shoot cooldown
         shootTimer -= Time.fixedDeltaTime;
@@ -95,14 +98,16 @@ public class EnemyTurret : MonoBehaviour, IDamageable
         spriteRenderer.color = isShooting ? shootColor : originalColor;
     }
 
-    void Die()
+    public override void Die()
     {
         Instantiate(destroyedVersionPrefab, transform.position, transform.rotation);
-        Destroy(gameObject);
+        base.Die();
     }
 
     private IEnumerator PrepareShoot()
     {
+        if (LevelManager.Instance.isPaused()) yield break;
+
         if (isPreparing) yield break;
 
         isPreparing = true;

@@ -1,21 +1,21 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WeaponPistola : MonoBehaviour
 {
     public GameObject bulletPrefab;
     public float bulletForce = 20f;
-    private Camera levelCamera;
     private Transform firePoint;
 
     void Start()
     {
-        levelCamera = LevelManager.Instance.mainCamera;
         firePoint = transform.Find("Firepoint");
     }
 
     void Update()
     {
-        Vector3 mousePosition = levelCamera.ScreenToWorldPoint(Input.mousePosition);
+        if (!Player.Instance.CanAim()) return;
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 direction = mousePosition - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, angle);

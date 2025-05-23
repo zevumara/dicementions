@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyDash : MonoBehaviour, IDamageable
+public class EnemyDash : EnemyBase, IDamageable
 {
 
     [Header("General")]
@@ -27,19 +27,21 @@ public class EnemyDash : MonoBehaviour, IDamageable
     private int bulletLayer;
     private bool isPreparing = false;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         bulletLayer = LayerMask.NameToLayer("Bullet");
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
         currentSpeed = normalSpeed;
+        dashTimer = Random.Range(2, 8);
     }
 
     void FixedUpdate()
     {
-        if (player == null) return;
+        if (LevelManager.Instance.isPaused()) return;
 
         Vector2 direction = isDashing ? dashDirection : ((Vector2) player.position - rigidBody.position).normalized;
 
@@ -89,13 +91,10 @@ public class EnemyDash : MonoBehaviour, IDamageable
         spriteRenderer.color = isDashing ? dashColor : originalColor;
     }
 
-    void Die()
-    {
-        Destroy(gameObject);
-    }
-
     private System.Collections.IEnumerator PrepareDash()
     {
+        if (LevelManager.Instance.isPaused()) yield break;
+
         if (isPreparing) yield break;
 
         isPreparing = true;

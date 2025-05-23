@@ -8,21 +8,19 @@ public class WeaponEscopeta : MonoBehaviour
     public float bulletLifetime = 0.3f;
     private float recoilForce = 200f;
     private float offsetAmount = 0.7f;
-    private Camera levelCamera;
     private Transform player;
     private Transform firePoint;
 
     void Start()
     {
         player = Player.Instance.transform;
-        levelCamera = LevelManager.Instance.mainCamera;
         firePoint = transform.Find("Firepoint");
     }
 
     void Update()
     {
         // Rotar el arma hacia el mouse
-        Vector3 mousePosition = levelCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 direction = mousePosition - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, angle);

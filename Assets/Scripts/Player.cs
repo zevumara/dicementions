@@ -8,10 +8,10 @@ public class Player : MonoBehaviour
     public static event Action onPlayerDamaged;
     public float moveSpeed = 5f, hp, maxHp = 5f;
     public Rigidbody2D rigidBody;
-    public Camera mainCamera;
     public Animator animator;
     public Color flashColor = Color.red;
     public float flashDuration = 0.1f;
+    public int wins = 0;
     public GameObject weapon;
     public GameObject enemy1;
     public GameObject enemy2;
@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     private Transform weaponHolder;
     private GameObject currentWeapon;
     private bool canMove = true;
+    private bool canAim = true;
 
     private void Awake()
     {
@@ -46,6 +47,14 @@ public class Player : MonoBehaviour
         {
             EquipWeapon();
         }
+    }
+    public void SetNewWeapon(GameObject newWeapon)
+    {
+        if (currentWeapon != null)
+        {
+            Destroy(currentWeapon);
+        }
+        weapon = newWeapon;
     }
     public void EquipWeapon()
     {
@@ -83,6 +92,10 @@ public class Player : MonoBehaviour
     public void TakePotion(int amount)
     {
         hp += amount;
+        if (hp > maxHp)
+        {
+            maxHp = hp;
+        }
         onPlayerDamaged?.Invoke();
     }
     IEnumerator FlashDamage()
@@ -112,6 +125,7 @@ public class Player : MonoBehaviour
 
     private IEnumerator LevelIntroSequence()
     {
+        canAim = true;
         canMove = false;
         float moveTime = 4f;
         float timer = 0f;
@@ -130,8 +144,6 @@ public class Player : MonoBehaviour
         // Mostrar cuenta regresiva
         yield return StartCoroutine(LevelManager.Instance.ShowCountdown(3));
 
-        // Activar enemigos
-
         canMove = true;
     }
 
@@ -139,5 +151,58 @@ public class Player : MonoBehaviour
     {
         if (!canMove) return false;
         return true;
+    }
+    public bool CanAim()
+    {
+        return canAim;
+    }
+
+    public void FadeOut(float duration)
+    {
+        canMove = false;
+        canAim = false;
+        StartCoroutine(FadeOutCoroutine(duration));
+    }
+
+    private IEnumerator FadeOutCoroutine(float duration)
+    {
+        SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
+        float elapsed = 0f;
+
+        Color[] originalColors = new Color[renderers.Length];
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            originalColors[i] = renderers[i].color;
+        }
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
+
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                Color c = originalColors[i];
+                renderers[i].color = new Color(c.r, c.g, c.b, alpha);
+            }
+
+            yield return null;
+        }
+
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            Color c = originalColors[i];
+            renderers[i].color = new Color(c.r, c.g, c.b, 0f);
+        }
+    }
+
+    public void ResetFade()
+    {
+        SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
+        foreach (var sr in renderers)
+        {
+            Color c = sr.color;
+            sr.color = new Color(c.r, c.g, c.b, 1f);
+        }
     }
 }

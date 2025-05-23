@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Linq;
 using System.Collections;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -42,6 +43,10 @@ public class GameManager : MonoBehaviour
             return null;
         }
     }
+    public int GetWeaponIndexByName(string name)
+    {
+        return Array.FindIndex(weaponPrefabs, prefab => prefab.name == name);
+    }
 
     public GameObject GetEnemyByName(string name)
     {
@@ -61,6 +66,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public int GetEnemyIndexByName(string name)
+    {
+        return Array.FindIndex(enemyPrefabs, prefab => prefab.name == name);
+    }
+
     public void StartSceneTransition(string sceneName)
     {
         StartCoroutine(FadeAndLoadScene(sceneName));
@@ -68,12 +78,12 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator FadeAndLoadScene(string sceneName)
     {
-        // FADE IN
+        RectTransform imageTransform = fadeImage.GetComponent<RectTransform>();
+        imageTransform.localPosition = new Vector3(imageTransform.localPosition.x, imageTransform.localPosition.y, -17339);
         yield return StartCoroutine(Fade(0f, 1f));
 
-        // CARGA ASÍNCRONA
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-        asyncLoad.allowSceneActivation = false; // Esperá a terminar el fade antes de mostrar
+        asyncLoad.allowSceneActivation = false;
 
         // Esperar a que esté cargada
         while (asyncLoad.progress < 0.9f)
@@ -81,9 +91,14 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        // FADE OUT OPCIONAL (o solo activar la escena)
-        yield return new WaitForSeconds(0.2f); // Pequeño delay si querés
+        yield return new WaitForSeconds(0.2f);
         asyncLoad.allowSceneActivation = true;
+
+        yield return null;
+
+        imageTransform.localPosition = new Vector3(imageTransform.localPosition.x, imageTransform.localPosition.y, 0f);
+        fadeImage.color = new Color(0, 0, 0, 1);
+        yield return StartCoroutine(Fade(1f, 0f));
     }
 
     private IEnumerator Fade(float fromAlpha, float toAlpha)
@@ -99,7 +114,6 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        // Asegurar el valor final
         fadeImage.color = new Color(c.r, c.g, c.b, toAlpha);
     }
 }

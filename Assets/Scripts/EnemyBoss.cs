@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class EnemyBoss : MonoBehaviour, IDamageable
+public class EnemyBoss : EnemyBase, IDamageable
 {
 
     [Header("General")]
@@ -45,8 +45,9 @@ public class EnemyBoss : MonoBehaviour, IDamageable
     private float shootTimer = 0f;
     private float shootDurationTimer = 0f;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         bulletLayer = LayerMask.NameToLayer("Bullet");
         rigidBody = GetComponent<Rigidbody2D>();
@@ -60,18 +61,17 @@ public class EnemyBoss : MonoBehaviour, IDamageable
     {
         while (true)
         {
+            while (LevelManager.Instance.isPaused())
+                yield return null;
+
             // Esperar a que no esté ocupado
             while (isDashing || isShooting || isPreparing)
                 yield return null;
-
-            // Esperar cooldowns si deseas manejarlos aquí (opcional)
-            // yield return new WaitForSeconds(1f);
 
             // Elegir acción aleatoria
             float choice = Random.value;
             if (choice < 0.5f)
             {
-                // Solo iniciar dash si el cooldown ya pasó
                 if (!isDashing && dashTimer <= 0f)
                 {
                     StartCoroutine(PrepareDash());
@@ -85,13 +85,13 @@ public class EnemyBoss : MonoBehaviour, IDamageable
                 }
             }
 
-            yield return new WaitForSeconds(1f); // Pequeña pausa entre elecciones
+            yield return new WaitForSeconds(2f);
         }
     }
 
     void FixedUpdate()
     {
-        if (player == null) return;
+        if (LevelManager.Instance.isPaused()) return;
 
         Vector2 direction = isDashing ? dashDirection : ((Vector2)player.position - rigidBody.position).normalized;
 
@@ -153,13 +153,10 @@ public class EnemyBoss : MonoBehaviour, IDamageable
         spriteRenderer.color = isDashing ? dashColor : originalColor;
     }
 
-    void Die()
-    {
-        Destroy(gameObject);
-    }
-
     private IEnumerator PrepareShoot()
     {
+        if (LevelManager.Instance.isPaused()) yield break;
+
         if (isPreparing) yield break;
 
         isPreparing = true;
@@ -180,6 +177,8 @@ public class EnemyBoss : MonoBehaviour, IDamageable
     {
         while (isShooting)
         {
+            if (LevelManager.Instance.isPaused()) yield return null;
+
             GameObject bullet = Instantiate(enemyBulletPrefab, firePoint.position, Quaternion.identity);
             bullet.layer = LayerMask.NameToLayer("EnemyBullet");
             Rigidbody2D rigidBody = bullet.GetComponent<Rigidbody2D>();
@@ -192,6 +191,8 @@ public class EnemyBoss : MonoBehaviour, IDamageable
 
     private IEnumerator PrepareDash()
     {
+        if (LevelManager.Instance.isPaused()) yield break;
+
         if (isPreparing) yield break;
 
         isPreparing = true;

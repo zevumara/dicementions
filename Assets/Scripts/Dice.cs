@@ -152,7 +152,7 @@ public class Dice : MonoBehaviour
         GameObject weaponPrefab = GameManager.Instance.GetWeaponByName("Weapon" + name);
         if (weaponPrefab != null)
         {
-            Player.Instance.weapon = weaponPrefab;
+            Player.Instance.SetNewWeapon(weaponPrefab);
         }
     }
 
