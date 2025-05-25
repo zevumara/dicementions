@@ -12,7 +12,7 @@ public class LevelManager : MonoBehaviour
     public int maxEnemies = 30;
     public int enemyMultiplier = 5;
     private GameObject exitDoor;
-    private bool pause = true;
+    private bool isLevelPaused = true;
     private List<Collider2D> spawnZones = new List<Collider2D>();
     private List<EnemyBase> enemies = new List<EnemyBase>();
     private bool clear = false;
@@ -86,7 +86,7 @@ public class LevelManager : MonoBehaviour
         {
             SpawnEnemies(quantity);
         }
-        
+
         clear = false;
     }
 
@@ -143,6 +143,8 @@ public class LevelManager : MonoBehaviour
 
     public IEnumerator ShowCountdown(int seconds)
     {
+        GameObject background = GameObject.Find("Countdown Background");
+        background.gameObject.SetActive(true);
         countdownText.gameObject.SetActive(true);
 
         for (int i = seconds; i > 0; i--)
@@ -156,12 +158,25 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         countdownText.gameObject.SetActive(false);
-        pause = false;
+        background.gameObject.SetActive(false);
+        isLevelPaused = false;
     }
 
-    public bool isPaused()
+    public void Pause()
     {
-        return pause;
+        Time.timeScale = 0;
+        isLevelPaused = true;
+    }
+
+    public void Resume()
+    {
+        Time.timeScale = 1f;
+        isLevelPaused = false;
+    }
+
+    public bool IsPaused()
+    {
+        return isLevelPaused;
     }
 
     public void RegisterEnemy(EnemyBase enemy)
@@ -191,8 +206,13 @@ public class LevelManager : MonoBehaviour
         opened.gameObject.SetActive(true);
     }
 
-    public bool isLevelClear()
+    public bool isClear()
     {
         return clear;
+    }
+
+    public void ShowGameOver()
+    {
+        GameManager.Instance.StartSceneTransition("Game Over");
     }
 }

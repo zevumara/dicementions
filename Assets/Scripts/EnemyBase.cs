@@ -9,6 +9,7 @@ public abstract class EnemyBase : MonoBehaviour
 
     public virtual void Die()
     {
+        Player.Instance.defeatedEnemies++;
         LevelManager.Instance.UnregisterEnemy(this);
         Destroy(gameObject);
     }

@@ -228,9 +228,10 @@ MonoBehaviour:
   rotationSpeed: 200
   shootSpeed: 0.2
   shootDuration: 10
-  shootCooldown: 3
+  minShootCooldown: 3
+  maxShootCooldown: 12
   shootColor: {r: 0, g: 1, b: 1, a: 1}
   prepareShootDuration: 0.5
   enemyBulletPrefab: {fileID: 6043172817713676162, guid: c6d301d0b8c08be4bad4667db62f4257, type: 3}
   firePoint: {fileID: 8046116187912926842}
-  bulletForce: 8
+  bulletForce: 2

@@ -41,7 +41,7 @@ public class EnemyDash : EnemyBase, IDamageable
 
     void FixedUpdate()
     {
-        if (LevelManager.Instance.isPaused()) return;
+        if (LevelManager.Instance.IsPaused()) return;
 
         Vector2 direction = isDashing ? dashDirection : ((Vector2) player.position - rigidBody.position).normalized;
 
@@ -93,7 +93,7 @@ public class EnemyDash : EnemyBase, IDamageable
 
     private System.Collections.IEnumerator PrepareDash()
     {
-        if (LevelManager.Instance.isPaused()) yield break;
+        if (LevelManager.Instance.IsPaused()) yield break;
 
         if (isPreparing) yield break;
 

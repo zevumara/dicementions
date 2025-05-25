@@ -8,6 +8,7 @@ using System;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public string[] levels;
     public GameObject[] weaponPrefabs;
     public GameObject[] enemyPrefabs;
     public Image fadeImage;
@@ -73,6 +74,7 @@ public class GameManager : MonoBehaviour
 
     public void StartSceneTransition(string sceneName)
     {
+        Time.timeScale = 1f;
         StartCoroutine(FadeAndLoadScene(sceneName));
     }
 
@@ -115,5 +117,10 @@ public class GameManager : MonoBehaviour
         }
 
         fadeImage.color = new Color(c.r, c.g, c.b, toAlpha);
+    }
+
+    public string GetRandomLevel()
+    {
+       return levels[UnityEngine.Random.Range(0, levels.Length)];
     }
 }

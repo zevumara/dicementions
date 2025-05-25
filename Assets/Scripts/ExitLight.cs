@@ -15,7 +15,7 @@ public class ExitLight : MonoBehaviour
 
     void Update()
     {
-        if (!LevelManager.Instance.isLevelClear()) return;
+        if (!LevelManager.Instance.isClear()) return;
         float t = (Mathf.Sin(Time.time * pulseSpeed * Mathf.PI * 2f) + 1f) / 2f;
         light2D.intensity = Mathf.Lerp(minIntensity, maxIntensity, t);
     }

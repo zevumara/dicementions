@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public Color flashColor = Color.red;
     public float flashDuration = 0.1f;
     public int wins = 0;
+    public int defeatedEnemies = 0;
     public GameObject weapon;
     public GameObject enemy1;
     public GameObject enemy2;
@@ -23,6 +24,7 @@ public class Player : MonoBehaviour
     private GameObject currentWeapon;
     private bool canMove = true;
     private bool canAim = true;
+    private bool isDead = false;
 
     private void Awake()
     {
@@ -38,7 +40,6 @@ public class Player : MonoBehaviour
     }
     private void Start()
     {
-        // hp = maxHp;
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
         cameraShake = FindFirstObjectByType<CameraShake>();
@@ -50,14 +51,14 @@ public class Player : MonoBehaviour
     }
     public void SetNewWeapon(GameObject newWeapon)
     {
-        if (currentWeapon != null)
-        {
-            Destroy(currentWeapon);
-        }
         weapon = newWeapon;
     }
     public void EquipWeapon()
     {
+        if (currentWeapon != null)
+        {
+            Destroy(currentWeapon);
+        }
         currentWeapon = Instantiate(weapon, weaponHolder);
         currentWeapon.transform.localPosition = Vector3.zero;
         currentWeapon.transform.localRotation = Quaternion.identity;
@@ -78,12 +79,14 @@ public class Player : MonoBehaviour
     }
     public void TakeDamage(int amount)
     {
-        hp -= amount;
-        onPlayerDamaged?.Invoke();
-        cameraShake.Shake();
-        StartCoroutine(FlashDamage());
-        FindFirstObjectByType<ScreenFlash>()?.Flash();
-
+        if (hp > 0)
+        {
+            hp -= amount;
+            onPlayerDamaged?.Invoke();
+            cameraShake.Shake();
+            StartCoroutine(FlashDamage());
+            FindFirstObjectByType<ScreenFlash>()?.Flash();
+        }
         if (hp <= 0)
         {
             Die();
@@ -96,6 +99,10 @@ public class Player : MonoBehaviour
         {
             maxHp = hp;
         }
+        if (hp > 14)
+        {
+            hp = maxHp = 14;
+        }
         onPlayerDamaged?.Invoke();
     }
     IEnumerator FlashDamage()
@@ -106,7 +113,23 @@ public class Player : MonoBehaviour
     }
     void Die()
     {
-        Debug.Log("Game Over");
+        if (!isDead)
+        {
+            isDead = true;
+            LevelManager.Instance.ShowGameOver();
+        }
+    }
+
+    public void Reset()
+    {
+        hp = 0;
+        maxHp = 4;
+        weapon = null;
+        enemy1 = null;
+        enemy2 = null;
+        wins = 0;
+        defeatedEnemies = 0;
+        isDead = false;
     }
 
     public bool isReady()
@@ -147,13 +170,20 @@ public class Player : MonoBehaviour
         canMove = true;
     }
 
+    public bool CanMove()
+    {
+        if (LevelManager.Instance.IsPaused()) return false;
+        return canMove;
+    }
+
     public bool CanShoot()
     {
-        if (!canMove) return false;
+        if (!CanMove()) return false;
         return true;
     }
     public bool CanAim()
     {
+        if (!CanMove()) return false;
         return canAim;
     }
 

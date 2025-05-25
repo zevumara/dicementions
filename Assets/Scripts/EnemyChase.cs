@@ -26,7 +26,7 @@ public class EnemyChase : EnemyBase, IDamageable
 
     void FixedUpdate()
     {
-        if (LevelManager.Instance.isPaused()) return;
+        if (LevelManager.Instance.IsPaused()) return;
 
         Vector2 direction = ((Vector2) player.position - rigidBody.position).normalized;
 

@@ -1,6 +1,4 @@
-using System;
 using TMPro;
-using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -46,9 +44,5 @@ public class StartButton : MonoBehaviour
         {
             activate();
         }
-    }
-    public void OnStartClicked()
-    {
-        GameManager.Instance.StartSceneTransition("Level");
     }
 }

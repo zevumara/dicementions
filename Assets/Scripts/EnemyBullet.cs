@@ -3,15 +3,16 @@ using UnityEngine;
 public class EnemyBullet : MonoBehaviour
 {
     public GameObject hitEffect;
+    public float lifetime = 6f;
 
     void Start()
     {
-        Destroy(gameObject, 6f);
+        Destroy(gameObject, lifetime);
     }
 
     void Update()
     {
-        if (LevelManager.Instance.isPaused()) return;
+        if (LevelManager.Instance.IsPaused()) return;
 
         transform.Rotate(0f, 0f, 360f * Time.deltaTime);
     }

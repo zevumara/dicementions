@@ -19,10 +19,8 @@ public class Dice : MonoBehaviour
         "4"  // -Z Lanzagranadas
     };
     public Image imageWeapon;
-    public Sprite[] spritesWeapons;
     public Image imageEnemy1;
     public Image imageEnemy2;
-    public Sprite[] spritesEnemies;
     private Renderer rend;
     private Rigidbody rigidBody;
     private bool physicsEnabled = false;
@@ -131,7 +129,10 @@ public class Dice : MonoBehaviour
             // Debug.Log("La cara visible es: " + faces[faceIndex]);
             if (imageWeapon)
             {
-                setWeapon(faces[faceIndex], spritesWeapons[faceIndex]);
+                string name = faces[faceIndex];
+                int weaponIndex = GameManager.Instance.GetWeaponIndexByName("Weapon" + name);
+                Sprite sprite = DiceManager.Instance.spritesWeapons[weaponIndex];
+                setWeapon(name, sprite);
             }
             if (imageEnemy1 && imageEnemy2)
             {
@@ -164,9 +165,9 @@ public class Dice : MonoBehaviour
         spriteIndex[0] = int.Parse(enemyIndex[0]);
         spriteIndex[1] = int.Parse(enemyIndex[1]);
         
-        imageEnemy1.sprite = spritesEnemies[spriteIndex[0]];
+        imageEnemy1.sprite = DiceManager.Instance.spritesEnemies[spriteIndex[0]];
         imageEnemy1.enabled = true;
-        imageEnemy2.sprite = spritesEnemies[spriteIndex[1]];
+        imageEnemy2.sprite = DiceManager.Instance.spritesEnemies[spriteIndex[1]];
         imageEnemy2.enabled = true;
         
         GameObject enemy1Prefab = GameManager.Instance.GetEnemyByIndex(spriteIndex[0]);

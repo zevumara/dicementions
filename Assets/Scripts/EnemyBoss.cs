@@ -61,7 +61,7 @@ public class EnemyBoss : EnemyBase, IDamageable
     {
         while (true)
         {
-            while (LevelManager.Instance.isPaused())
+            while (LevelManager.Instance.IsPaused())
                 yield return null;
 
             // Esperar a que no esté ocupado
@@ -91,7 +91,7 @@ public class EnemyBoss : EnemyBase, IDamageable
 
     void FixedUpdate()
     {
-        if (LevelManager.Instance.isPaused()) return;
+        if (LevelManager.Instance.IsPaused()) return;
 
         Vector2 direction = isDashing ? dashDirection : ((Vector2)player.position - rigidBody.position).normalized;
 
@@ -155,7 +155,7 @@ public class EnemyBoss : EnemyBase, IDamageable
 
     private IEnumerator PrepareShoot()
     {
-        if (LevelManager.Instance.isPaused()) yield break;
+        if (LevelManager.Instance.IsPaused()) yield break;
 
         if (isPreparing) yield break;
 
@@ -177,7 +177,7 @@ public class EnemyBoss : EnemyBase, IDamageable
     {
         while (isShooting)
         {
-            if (LevelManager.Instance.isPaused()) yield return null;
+            if (LevelManager.Instance.IsPaused()) yield return null;
 
             GameObject bullet = Instantiate(enemyBulletPrefab, firePoint.position, Quaternion.identity);
             bullet.layer = LayerMask.NameToLayer("EnemyBullet");
@@ -191,7 +191,7 @@ public class EnemyBoss : EnemyBase, IDamageable
 
     private IEnumerator PrepareDash()
     {
-        if (LevelManager.Instance.isPaused()) yield break;
+        if (LevelManager.Instance.IsPaused()) yield break;
 
         if (isPreparing) yield break;
 

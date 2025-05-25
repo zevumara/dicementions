@@ -14,7 +14,8 @@ public class EnemyTurret : EnemyBase, IDamageable
     public float rotationSpeed = 200f;
     public float shootSpeed = 0.2f;
     public float shootDuration = 10f;
-    public float shootCooldown = 3f;
+    public float minShootCooldown = 3f;
+    public float maxShootCooldown = 12f;
     public Color shootColor = Color.cyan;
     public float prepareShootDuration = 0.5f;
 
@@ -30,6 +31,7 @@ public class EnemyTurret : EnemyBase, IDamageable
     private bool isShooting = false;
     private Color originalColor;
     private bool isPreparing = false;
+    private float shootCooldown = 0f;
 
     protected override void Start()
     {
@@ -38,12 +40,12 @@ public class EnemyTurret : EnemyBase, IDamageable
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
         shootTimer = Random.Range(2, 10);
-        shootCooldown = Random.Range(3, 12);
+        shootCooldown = Random.Range(minShootCooldown, maxShootCooldown);
     }
 
     void FixedUpdate()
     {
-        if (LevelManager.Instance.isPaused()) return;
+        if (LevelManager.Instance.IsPaused()) return;
 
         // Shoot cooldown
         shootTimer -= Time.fixedDeltaTime;
@@ -106,7 +108,7 @@ public class EnemyTurret : EnemyBase, IDamageable
 
     private IEnumerator PrepareShoot()
     {
-        if (LevelManager.Instance.isPaused()) yield break;
+        if (LevelManager.Instance.IsPaused()) yield break;
 
         if (isPreparing) yield break;
 

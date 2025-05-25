@@ -280,9 +280,10 @@ MonoBehaviour:
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.1
   shootDuration: 3
-  shootCooldown: 6
+  minShootCooldown: 3
+  maxShootCooldown: 12
   shootColor: {r: 0.5587987, g: 1, b: 0.50628924, a: 1}
   prepareShootDuration: 0.2
   enemyBulletPrefab: {fileID: 6043172817713676162, guid: 061714028d02cd846a28d0ec2bca3114, type: 3}
   firePoint: {fileID: 7017428706467827510}
-  bulletForce: 10
+  bulletForce: 5

@@ -16,6 +16,6 @@ public class ExitDoor : MonoBehaviour
         LevelManager.Instance.countdownText.text = "¡Sala superada!";
         player.FadeOut(1.5f);
         yield return new WaitForSeconds(2f);
-        GameManager.Instance.StartSceneTransition("Dice Scene");
+        GameManager.Instance.StartSceneTransition("Dices");
     }
 }

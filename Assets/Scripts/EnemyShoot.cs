@@ -12,7 +12,8 @@ public class EnemyShoot : EnemyBase, IDamageable
 
     [Header("Shoot Settings")]
     public float shootDuration = 0.5f;
-    public float shootCooldown = 3f;
+    public float minShootCooldown = 3f;
+    public float maxShootCooldown = 12f;
     public Color shootColor = Color.cyan;
     public float prepareShootDuration = 0.5f;
 
@@ -30,6 +31,7 @@ public class EnemyShoot : EnemyBase, IDamageable
     private bool isShooting = false;
     private Color originalColor;
     private bool isPreparing = false;
+    private float shootCooldown = 0f;
 
     protected override void Start()
     {
@@ -40,11 +42,12 @@ public class EnemyShoot : EnemyBase, IDamageable
         originalColor = spriteRenderer.color;
         currentSpeed = normalSpeed;
         shootTimer = Random.Range(2, 8);
+        shootCooldown = Random.Range(minShootCooldown, maxShootCooldown);
     }
 
     void FixedUpdate()
     {
-        if (LevelManager.Instance.isPaused()) return;
+        if (LevelManager.Instance.IsPaused()) return;
 
         Vector2 direction = ((Vector2) player.position - rigidBody.position).normalized;
 
@@ -78,7 +81,7 @@ public class EnemyShoot : EnemyBase, IDamageable
     {
         while (isShooting)
         {
-            if (LevelManager.Instance.isPaused()) yield return null;
+            if (LevelManager.Instance.IsPaused()) yield return null;
 
             GameObject bullet = Instantiate(enemyBulletPrefab, firePoint.position, Quaternion.identity);
             bullet.layer = LayerMask.NameToLayer("EnemyBullet");
@@ -99,7 +102,7 @@ public class EnemyShoot : EnemyBase, IDamageable
 
     private IEnumerator PrepareShoot()
     {
-        if (LevelManager.Instance.isPaused()) yield break;
+        if (LevelManager.Instance.IsPaused()) yield break;
 
         if (isPreparing) yield break;
 
