@@ -14,9 +14,8 @@ public class DiceWeapon : DiceBase
 
     protected override void DiceRolled(int index)
     {
-        Debug.Log("Index: " + index);
-        Debug.Log("Arma: " + Faces[index]);
-
+        // Debug.Log("Index: " + index);
+        // Debug.Log("Arma: " + Faces[index]);
         string weaponName = Faces[index];
         int weaponIndex = GameManager.Instance.GetWeaponIndexByName("Weapon" + weaponName);
 
@@ -24,10 +23,7 @@ public class DiceWeapon : DiceBase
         image.sprite = sprite;
         image.enabled = true;
 
-        GameObject weaponPrefab = GameManager.Instance.GetWeaponByName("Weapon" + name);
-        if (weaponPrefab != null)
-        {
-            Player.Instance.SetNewWeapon(weaponPrefab);
-        }
+        GameObject weaponPrefab = GameManager.Instance.GetWeaponByName("Weapon" + weaponName);
+        Player.Instance.weapon = weaponPrefab;
     }
 }

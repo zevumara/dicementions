@@ -49,10 +49,6 @@ public class Player : MonoBehaviour
             EquipWeapon();
         }
     }
-    public void SetNewWeapon(GameObject newWeapon)
-    {
-        weapon = newWeapon;
-    }
     public void EquipWeapon()
     {
         if (currentWeapon != null)
@@ -84,12 +80,13 @@ public class Player : MonoBehaviour
             hp -= amount;
             onPlayerDamaged?.Invoke();
             cameraShake.Shake();
+            if (hp <= 0)
+            {
+                Die();
+                return;
+            }
             StartCoroutine(FlashDamage());
             FindFirstObjectByType<ScreenFlash>()?.Flash();
-        }
-        if (hp <= 0)
-        {
-            Die();
         }
     }
     public void TakePotion(int amount)

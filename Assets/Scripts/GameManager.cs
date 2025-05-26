@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
                 return dispara[UnityEngine.Random.Range(0, dispara.Length)];
             case "Embiste":
                 return embiste[UnityEngine.Random.Range(0, embiste.Length)];
-            case "torreta":
+            case "Torreta":
                 return torreta[UnityEngine.Random.Range(0, torreta.Length)];
             default:
                 return null;

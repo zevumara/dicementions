@@ -32,14 +32,12 @@ public class DiceManager : MonoBehaviour
         }
         if (Player.Instance.enemy1 != null)
         {
-            string enemyName = Player.Instance.enemy1.name;
-            imageEnemy1.sprite = spritesEnemies[GameManager.Instance.GetEnemyIndexByName(enemyName)];
+            imageEnemy1.sprite = Player.Instance.enemy1.GetComponent<SpriteRenderer>().sprite;
             imageEnemy1.enabled = true;
         }
         if (Player.Instance.enemy2 != null)
         {
-            string enemyName = Player.Instance.enemy2.name;
-            imageEnemy2.sprite = spritesEnemies[GameManager.Instance.GetEnemyIndexByName(enemyName)];
+            imageEnemy2.sprite = Player.Instance.enemy2.GetComponent<SpriteRenderer>().sprite;
             imageEnemy2.enabled = true;
         }
     }

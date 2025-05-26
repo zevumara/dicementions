@@ -8,7 +8,6 @@ public abstract class DiceBase : MonoBehaviour
     public Color normalColor = Color.white;
     public Color hoverColor = Color.cyan;
     public float rotationSpeed = 30f;
-    public float throwForce = 132f;
     public Vector3 floatOffset = new Vector3(0, 0.25f, 0);
     public float floatSpeed = 2f;
     public Image image;
@@ -19,6 +18,8 @@ public abstract class DiceBase : MonoBehaviour
     private bool waitingToStop = false;
     private float stillTime = 0f;
     private float stopThreshold = 0.2f;
+    private float throwForce = 0.8f;
+    private float throwTorque = 2.1f;
 
     void Start()
     {
@@ -85,13 +86,11 @@ public abstract class DiceBase : MonoBehaviour
         rigidBody.isKinematic = false;
         // Lanzamiento hacia arriba + dirección aleatoria
         float rndForce = Random.Range(-throwForce, throwForce);
-        rigidBody.AddForce(Vector3.up * (throwForce + rndForce), ForceMode.Impulse);
-        Debug.Log("random force:" + rndForce);
+        rigidBody.AddForce(Vector3.up * throwForce, ForceMode.Impulse);
         // Agitación rotacional agresiva
         float rndTorque = Random.Range(-throwForce, throwForce);
         Vector3 torqueDirection = new Vector3(1, 1, 0).normalized;
-        rigidBody.AddTorque(torqueDirection * (throwForce + rndTorque), ForceMode.Impulse);
-        Debug.Log("random torque:" + rndTorque);
+        rigidBody.AddTorque(torqueDirection * throwTorque, ForceMode.Impulse);
 
         waitingToStop = true;
         stillTime = 0f;

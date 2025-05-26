@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -54,13 +55,12 @@ public class LevelManager : MonoBehaviour
         {
             if (player.hp == 0)
             {
-                player.maxHp = 6;
-                player.hp = 6;
+                player.TakePotion(14);
             }
             if (player.enemy1 == null || player.enemy2 == null)
             {
-                player.enemy1 = GameManager.Instance.GetEnemyByIndex(3);
-                player.enemy2 = GameManager.Instance.GetEnemyByIndex(2);
+                player.enemy1 = GameManager.Instance.GetEnemyByIndex(9);
+                player.enemy2 = GameManager.Instance.GetEnemyByIndex(8);
             }
         }
 
@@ -73,12 +73,26 @@ public class LevelManager : MonoBehaviour
         }
 
         int quantity = Random.Range(minEnemies, maxEnemies + 1) + (Player.Instance.wins * enemyMultiplier);
+        bool Enemy1IsABoss = GameManager.Instance.jefe.Contains(Player.Instance.enemy1);
+        bool Enemy2IsABoss = GameManager.Instance.jefe.Contains(Player.Instance.enemy2);
+        if (Enemy1IsABoss && Enemy2IsABoss)
+        {
+            Collider2D zone;
+            Vector2 spawnPosition;
 
-        if (Player.Instance.enemy1.name == "EnemyBoss")
+            zone = spawnZones[Random.Range(0, spawnZones.Count)];
+            spawnPosition = GetRandomPointInBounds(zone.bounds);
+            Instantiate(Player.Instance.enemy1, spawnPosition, Quaternion.identity);
+
+            zone = spawnZones[Random.Range(0, spawnZones.Count)];
+            spawnPosition = GetRandomPointInBounds(zone.bounds);
+            Instantiate(Player.Instance.enemy2, spawnPosition, Quaternion.identity);
+        }
+        else if (Enemy1IsABoss)
         {
             SpawnEnemiesWithBoss(quantity, Player.Instance.enemy1, Player.Instance.enemy2);
         }
-        else if (Player.Instance.enemy2.name == "EnemyBoss")
+        else if (Enemy2IsABoss)
         {
             SpawnEnemiesWithBoss(quantity, Player.Instance.enemy2, Player.Instance.enemy1);
         }
