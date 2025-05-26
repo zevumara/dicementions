@@ -11,6 +11,11 @@ public class GameManager : MonoBehaviour
     public string[] levels;
     public GameObject[] weaponPrefabs;
     public GameObject[] enemyPrefabs;
+    public GameObject[] jefe;
+    public GameObject[] persigue;
+    public GameObject[] embiste;
+    public GameObject[] dispara;
+    public GameObject[] torreta;
     public Image fadeImage;
     public float fadeDuration = 1f;
 
@@ -70,6 +75,25 @@ public class GameManager : MonoBehaviour
     public int GetEnemyIndexByName(string name)
     {
         return Array.FindIndex(enemyPrefabs, prefab => prefab.name == name);
+    }
+
+    public GameObject GetRndEnemyByType(string type)
+    {
+        switch (type)
+        {
+            case "Jefe":
+                return jefe[UnityEngine.Random.Range(0, jefe.Length)];
+            case "Persigue":
+                return persigue[UnityEngine.Random.Range(0, persigue.Length)];
+            case "Dispara":
+                return dispara[UnityEngine.Random.Range(0, dispara.Length)];
+            case "Embiste":
+                return embiste[UnityEngine.Random.Range(0, embiste.Length)];
+            case "torreta":
+                return torreta[UnityEngine.Random.Range(0, torreta.Length)];
+            default:
+                return null;
+        }
     }
 
     public void StartSceneTransition(string sceneName)

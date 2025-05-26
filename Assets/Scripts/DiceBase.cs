@@ -2,25 +2,16 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Collider))]
-public class Dice : MonoBehaviour
+public abstract class DiceBase : MonoBehaviour
 {
+    protected abstract string[] Faces { get; }
     public Color normalColor = Color.white;
     public Color hoverColor = Color.cyan;
     public float rotationSpeed = 30f;
     public float throwForce = 132f;
     public Vector3 floatOffset = new Vector3(0, 0.25f, 0);
     public float floatSpeed = 2f;
-    public string[] faces = new string[6] {
-        "5", // +X Bate
-        "1", // -X Escopeta
-        "5", // +Y Bumerán
-        "3", // -Y Ametralladora
-        "0", // +Z Pistola
-        "4"  // -Z Lanzagranadas
-    };
-    public Image imageWeapon;
-    public Image imageEnemy1;
-    public Image imageEnemy2;
+    public Image image;
     private Renderer rend;
     private Rigidbody rigidBody;
     private bool physicsEnabled = false;
@@ -36,6 +27,10 @@ public class Dice : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
         rigidBody.isKinematic = true;
         originalPosition = transform.position;
+    }
+
+    protected virtual void DiceRolled(int index) {
+        Debug.Log("La cara visible es: " + index);
     }
 
     void FixedUpdate()
@@ -89,10 +84,14 @@ public class Dice : MonoBehaviour
         physicsEnabled = true;
         rigidBody.isKinematic = false;
         // Lanzamiento hacia arriba + dirección aleatoria
-        rigidBody.AddForce(Vector3.up * (throwForce + Random.Range(-throwForce, throwForce)), ForceMode.Impulse);
+        float rndForce = Random.Range(-throwForce, throwForce);
+        rigidBody.AddForce(Vector3.up * (throwForce + rndForce), ForceMode.Impulse);
+        Debug.Log("random force:" + rndForce);
         // Agitación rotacional agresiva
+        float rndTorque = Random.Range(-throwForce, throwForce);
         Vector3 torqueDirection = new Vector3(1, 1, 0).normalized;
-        rigidBody.AddTorque(torqueDirection * (throwForce + Random.Range(-throwForce, throwForce)), ForceMode.Impulse);
+        rigidBody.AddTorque(torqueDirection * (throwForce + rndTorque), ForceMode.Impulse);
+        Debug.Log("random torque:" + rndTorque);
 
         waitingToStop = true;
         stillTime = 0f;
@@ -124,58 +123,6 @@ public class Dice : MonoBehaviour
             faceIndex = localDir.z > 0 ? 4 : 5; // +Z o -Z
         }
 
-        if (faceIndex >= 0 && faceIndex < faces.Length)
-        {
-            Debug.Log("La cara visible es: " + faces[faceIndex] + " (Index: " + faceIndex + ")");
-            if (imageWeapon)
-            {
-                string name = faces[faceIndex];
-                int weaponIndex = GameManager.Instance.GetWeaponIndexByName("Weapon" + name);
-                Sprite sprite = DiceManager.Instance.spritesWeapons[weaponIndex];
-                setWeapon(name, sprite);
-            }
-            if (imageEnemy1 && imageEnemy2)
-            {
-                setEnemies(faces[faceIndex]);
-            }
-        }
-        else
-        {
-            Debug.Log("No se pudo determinar la cara visible.");
-        }
-    }
-
-    void setWeapon(string name, Sprite sprite)
-    {
-        imageWeapon.sprite = sprite;
-        imageWeapon.enabled = true;
-
-        GameObject weaponPrefab = GameManager.Instance.GetWeaponByName("Weapon" + name);
-        if (weaponPrefab != null)
-        {
-            Player.Instance.SetNewWeapon(weaponPrefab);
-        }
-    }
-
-    void setEnemies(string enemies)
-    {
-        string[] enemyIndex = enemies.Split('+');
-        int[] spriteIndex = new int[2];
-
-        spriteIndex[0] = int.Parse(enemyIndex[0]);
-        spriteIndex[1] = int.Parse(enemyIndex[1]);
-        
-        imageEnemy1.sprite = DiceManager.Instance.spritesEnemies[spriteIndex[0]];
-        imageEnemy1.enabled = true;
-        imageEnemy2.sprite = DiceManager.Instance.spritesEnemies[spriteIndex[1]];
-        imageEnemy2.enabled = true;
-        
-        GameObject enemy1Prefab = GameManager.Instance.GetEnemyByIndex(spriteIndex[0]);
-        GameObject enemy2Prefab = GameManager.Instance.GetEnemyByIndex(spriteIndex[1]);
-        if (enemy1Prefab != null && enemy2Prefab != null)
-        {
-            Player.Instance.enemy1 = enemy1Prefab;
-            Player.Instance.enemy2 = enemy2Prefab;
-        }
+        DiceRolled(faceIndex);
     }
 }

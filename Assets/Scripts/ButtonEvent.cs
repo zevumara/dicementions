@@ -12,4 +12,8 @@ public class ButtonEvent : MonoBehaviour
         Player.Instance.Reset();
         GameManager.Instance.StartSceneTransition("Dices");
     }
+    public void OnExitClicked()
+    {
+        Application.Quit();
+    }
 }

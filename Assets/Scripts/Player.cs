@@ -123,7 +123,7 @@ public class Player : MonoBehaviour
     public void Reset()
     {
         hp = 0;
-        maxHp = 4;
+        maxHp = 6;
         weapon = null;
         enemy1 = null;
         enemy2 = null;

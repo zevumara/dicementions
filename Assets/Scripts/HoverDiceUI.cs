@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class HoverDiceUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    public Dice targetDice;
+    public DiceBase targetDice;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
