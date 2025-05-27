@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] torreta;
     public Image fadeImage;
     public float fadeDuration = 1f;
+    private string lastLevel = "Present";
 
     private void Awake()
     {
@@ -145,6 +146,17 @@ public class GameManager : MonoBehaviour
 
     public string GetRandomLevel()
     {
-       return levels[UnityEngine.Random.Range(0, levels.Length)];
+        // return levels[UnityEngine.Random.Range(0, levels.Length)]
+        string nextLevel;
+        if (lastLevel == "Past")
+        {
+            nextLevel = "Present";
+        }
+        else
+        {
+            nextLevel = "Past";
+        }
+        lastLevel = nextLevel;
+        return nextLevel;
     }
 }

@@ -12,6 +12,8 @@ public class ExitDoor : MonoBehaviour
     }
     private IEnumerator HandleExitSequence(Player player)
     {
+        
+        LevelManager.Instance.countdownBackground.gameObject.SetActive(true);
         LevelManager.Instance.countdownText.gameObject.SetActive(true);
         LevelManager.Instance.countdownText.text = "¡Sala superada!";
         player.FadeOut(1.5f);

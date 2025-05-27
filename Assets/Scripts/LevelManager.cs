@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { get; private set; }
     public Transform playerSpawnPoint;
+    public Image countdownBackground;
     public TMP_Text countdownText;
     public int minEnemies = 20;
     public int maxEnemies = 30;
@@ -157,8 +159,7 @@ public class LevelManager : MonoBehaviour
 
     public IEnumerator ShowCountdown(int seconds)
     {
-        GameObject background = GameObject.Find("Countdown Background");
-        background.gameObject.SetActive(true);
+        countdownBackground.gameObject.SetActive(true);
         countdownText.gameObject.SetActive(true);
 
         for (int i = seconds; i > 0; i--)
@@ -172,7 +173,7 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         countdownText.gameObject.SetActive(false);
-        background.gameObject.SetActive(false);
+        countdownBackground.gameObject.SetActive(false);
         isLevelPaused = false;
     }
 
