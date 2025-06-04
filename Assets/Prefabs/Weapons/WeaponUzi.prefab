@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 3652679802865446829}
   - component: {fileID: 2888511497578895951}
   - component: {fileID: -7549432805820657032}
+  - component: {fileID: 751413506891332595}
   m_Layer: 0
   m_Name: WeaponUzi
   m_TagString: Untagged
@@ -192,7 +193,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1052962507
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 887c547f755448b4b85641b5ca9d6ca0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -217,11 +218,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83a511acf412dbb44b88b592e0a4e5c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}
-  player: {fileID: 0}
-  firePoint: {fileID: 4235349087038444453}
   bulletPrefab: {fileID: 6043172817713676162, guid: a5f0ebbbf253fdc42b3a54a96a8f65b0, type: 3}
   bulletForce: 20
   bulletsPerBurst: 5
   timeBetweenBullets: 0.1
   timeBetweenBursts: 0.5
+--- !u!114 &751413506891332595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7033276389390766250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b0e04e2572f9a940a47465f6f3c2f00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Parameter: Gun
+  TriggerEvent: 1
+  Value: 3

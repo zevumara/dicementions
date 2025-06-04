@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{ac79c2c8-0cc8-4127-b347-d6523545c2b0}">
+		<property name="assetPath">
+			<value>(A´ Menu Game Over) 95bpm Dimentions Loop.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>6.3157916666666667</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{a6d81472-4899-4bf1-9e7a-a21d5095d496}</destination>
+		</relationship>
+	</object>
+</objects>

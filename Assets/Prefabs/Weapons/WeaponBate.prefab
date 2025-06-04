@@ -273,6 +273,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3652679802865446829}
   - component: {fileID: 961368173629889803}
+  - component: {fileID: -3356335689103460160}
   m_Layer: 0
   m_Name: WeaponBate
   m_TagString: Untagged
@@ -313,6 +314,22 @@ MonoBehaviour:
   hitZone: {fileID: 8099823047613948675}
   swingDuration: 0.2
   swingAngle: 180
+--- !u!114 &-3356335689103460160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7033276389390766250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b0e04e2572f9a940a47465f6f3c2f00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Parameter: Gun
+  TriggerEvent: 1
+  Value: 0
 --- !u!1 &8699913217898619239
 GameObject:
   m_ObjectHideFlags: 0
