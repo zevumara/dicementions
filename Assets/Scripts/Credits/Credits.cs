@@ -7,6 +7,11 @@ public class Credits: MonoBehaviour
     {
         Debug.Log("funcionó pa");
     }
+    public void GoToLink(string link)
+    {
+        Debug.Log(link);
+        Application.OpenURL(link);
+    }
 
     public void ToggleCredits()
     {

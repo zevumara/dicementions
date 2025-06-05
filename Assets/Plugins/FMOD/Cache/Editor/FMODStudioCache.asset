@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: Dicementions/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638846570400489413
+  lastModified: 638847331002294488
   FileSizes:
   - Name: Desktop
     Value: 3455776
@@ -467,7 +467,7 @@ MonoBehaviour:
   - {fileID: -8295576354641440188}
   StringsBanks:
   - {fileID: 9024668477958012465}
-  cacheTime: 638846570400524471
+  cacheTime: 638847331002304643
   cacheVersion: 131624
 --- !u!114 &571620753692018771
 MonoBehaviour:
@@ -714,7 +714,7 @@ MonoBehaviour:
   Path: Dicementions/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638846570400524471
+  lastModified: 638847331002304643
   FileSizes:
   - Name: Desktop
     Value: 1320

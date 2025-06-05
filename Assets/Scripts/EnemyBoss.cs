@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class EnemyBoss : EnemyBase, IDamageable
+public class EnemyBoss: EnemyBase, IDamageable
 {
 
     [Header("General")]
@@ -183,6 +183,7 @@ public class EnemyBoss : EnemyBase, IDamageable
             bullet.layer = LayerMask.NameToLayer("EnemyBullet");
             Rigidbody2D rigidBody = bullet.GetComponent<Rigidbody2D>();
             Vector2 direction = firePoint.up;
+
             rigidBody.AddForce(direction * bulletForce, ForceMode2D.Impulse);
 
             yield return new WaitForSeconds(shootSpeed);

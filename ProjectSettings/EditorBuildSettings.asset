@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Start/Start.unity
-    guid: 988b87bde0ad56149b2fb63acb113448
+    path: Assets/Scenes/Start/CreditsStart.unity
+    guid: 4cac0b4a093211f46a63396d9c9e4d5d
   - enabled: 1
     path: Assets/Scenes/Dices/Dices.unity
     guid: 607dda303a1fb0c4fad32f0677e107f8

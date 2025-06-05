@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: 081aacb252a4aa24b82f3916a2ac7054
+guid: a594f70ca9b66d14b8927ae739d94271
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2174078549910709361
-    second: CreditsMartin_0
+      213: -7354052995569459094
+    second: Enemigo_pasado_shoots_V2_0
+  - first:
+      213: -985814367218346567
+    second: Enemigo_pasado_shoots_V2_1
+  - first:
+      213: 1071462955762125783
+    second: Enemigo_pasado_shoots_V2_2
+  - first:
+      213: 68992832043879427
+    second: Enemigo_pasado_shoots_V2_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +60,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,13 +122,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CreditsMartin_0
+      name: Enemigo_pasado_shoots_V2_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1024
-        height: 1024
+        x: 3
+        y: 9
+        width: 27
+        height: 12
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +137,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 17469312ce0eb2e10800000000000000
-      internalID: 2174078549910709361
+      spriteID: a606fa393c721f990800000000000000
+      internalID: -7354052995569459094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemigo_pasado_shoots_V2_1
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 9
+        width: 14
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b5597b5e0fa152f0800000000000000
+      internalID: -985814367218346567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemigo_pasado_shoots_V2_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 11
+        width: 32
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7db0134a1e99ede00800000000000000
+      internalID: 1071462955762125783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemigo_pasado_shoots_V2_3
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 11
+        width: 27
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30c060e7d9c15f000800000000000000
+      internalID: 68992832043879427
       vertices: []
       indices: 
       edges: []
@@ -138,7 +213,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 6532543ef388ce84193ab774c2fc0806
     internalID: 0
     vertices: []
     indices: 
@@ -146,9 +221,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":16.0,"y":16.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      CreditsMartin_0: 2174078549910709361
+      Enemigo_pasado_shoots_V2_0: -7354052995569459094
+      Enemigo_pasado_shoots_V2_1: -985814367218346567
+      Enemigo_pasado_shoots_V2_2: 1071462955762125783
+      Enemigo_pasado_shoots_V2_3: 68992832043879427
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

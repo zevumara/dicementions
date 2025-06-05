@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyBullet : MonoBehaviour
+public class EnemyBullet: MonoBehaviour
 {
     public GameObject hitEffect;
     public float lifetime = 6f;
