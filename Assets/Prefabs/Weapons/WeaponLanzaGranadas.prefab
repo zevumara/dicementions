@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 3652679802865446829}
   - component: {fileID: 2888511497578895951}
   - component: {fileID: 6800014752423038977}
+  - component: {fileID: 9122423908171979560}
   m_Layer: 0
   m_Name: WeaponLanzaGranadas
   m_TagString: Untagged
@@ -192,7 +193,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1052962507
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 4a01e5141774d3a4b87c1a2c6e322540, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -217,8 +218,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b4493c0ee20c124696bf63538961487, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}
-  player: {fileID: 0}
-  firePoint: {fileID: 4235349087038444453}
   bulletPrefab: {fileID: 6043172817713676162, guid: d2e03a02be1e0294b975bd07ac4d42dc, type: 3}
   bulletForce: 10
+--- !u!114 &9122423908171979560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7033276389390766250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b0e04e2572f9a940a47465f6f3c2f00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Parameter: Gun
+  TriggerEvent: 1
+  Value: 5

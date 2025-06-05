@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{5b300233-a121-4d09-95e8-806cc9a401ac}">
+		<property name="assetPath">
+			<value>Menu Dados 70bpm.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>27.428562500000002</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{a6d81472-4899-4bf1-9e7a-a21d5095d496}</destination>
+		</relationship>
+	</object>
+</objects>

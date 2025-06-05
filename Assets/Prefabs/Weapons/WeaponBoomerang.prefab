@@ -126,6 +126,8 @@ GameObject:
   - component: {fileID: 3652679802865446829}
   - component: {fileID: 2888511497578895951}
   - component: {fileID: 4884549045043556082}
+  - component: {fileID: -2436872136968221249}
+  - component: {fileID: -1197701584679944327}
   m_Layer: 0
   m_Name: WeaponBoomerang
   m_TagString: Untagged
@@ -219,3 +221,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 6043172817713676162, guid: 2cc226e6e575f6346aabd3d9deb4378f, type: 3}
   bulletForce: 20
+--- !u!114 &-2436872136968221249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7033276389390766250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b0e04e2572f9a940a47465f6f3c2f00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Parameter: Gun
+  TriggerEvent: 1
+  Value: 4
+--- !u!114 &-1197701584679944327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7033276389390766250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1317812200
+      Data2: 1111243978
+      Data3: -164225867
+      Data4: 1346832348
+    Path: event:/SFX/Boomerang
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20

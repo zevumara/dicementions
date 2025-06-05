@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{dc845b70-45f6-40bd-ab4e-0b8df06f4ec2}">
+		<property name="assetPath">
+			<value>(Menu Intro) 95bpm Dimentions.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>40.421062499999998</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{a6d81472-4899-4bf1-9e7a-a21d5095d496}</destination>
+		</relationship>
+	</object>
+</objects>
